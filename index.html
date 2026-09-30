@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>AutoVideo AI</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-dot"></span> AutoVideo AI</div>
+      <button class="nav active" data-page="dashboard">⌂ <span>Dashboard</span></button>
+      <button class="nav" data-page="create">✦ <span>AI video maken</span></button>
+      <button class="nav" data-page="library">▣ <span>Mijn video's</span></button>
+      <button class="nav" data-page="schedule">◷ <span>Planning</span></button>
+      <button class="nav" data-page="settings">⚙ <span>Instellingen</span></button>
+      <div class="side-spacer"></div>
+      <div class="mini-card">
+        <div class="mini-title">Automatisch maken</div>
+        <div class="switch-row">
+          <span id="autoStatus">Uit</span>
+          <button id="autoToggle" class="switch" aria-label="Automatisch maken aan/uit"><span></span></button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Jouw AI content studio</div>
+          <h1 id="pageTitle">Dashboard</h1>
+        </div>
+        <button class="avatar" title="Profiel">A</button>
+      </header>
+
+      <section id="dashboard" class="page active">
+        <div class="hero">
+          <div>
+            <div class="pill">AI VIDEO AUTOMATISERING</div>
+            <h2>Laat ideeën veranderen in video's.</h2>
+            <p>De eerste versie van je app. Kies een thema, laat een video-idee genereren en plan wanneer je wilt posten.</p>
+            <button class="primary" id="startCreate">✦ Nieuwe AI-video</button>
+          </div>
+          <div class="hero-art">
+            <div class="orbit o1"></div><div class="orbit o2"></div><div class="orbital-core">AI</div>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><span>Vandaag gemaakt</span><strong id="todayCount">0</strong></div>
+          <div class="stat"><span>Gepland</span><strong id="scheduledCount">0</strong></div>
+          <div class="stat"><span>Kanalen</span><strong id="channelCount">0 / 3</strong></div>
+          <div class="stat"><span>Actieve thema's</span><strong id="themeCount">5</strong></div>
+        </div>
+
+        <div class="grid2">
+          <div class="panel">
+            <div class="panel-head"><h3>Volgende video's</h3><button class="text-btn" data-go="schedule">Alles bekijken →</button></div>
+            <div id="upcoming" class="empty">Nog niets gepland.</div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>Kanalen</h3><button class="text-btn" data-go="settings">Beheren →</button></div>
+            <div class="channels">
+              <div class="channel"><span class="icon youtube">▶</span><div><b>YouTube</b><small id="ytState">Niet gekoppeld</small></div><button class="ghost connect-btn" data-channel="YouTube">Koppelen</button></div>
+              <div class="channel"><span class="icon tiktok">♪</span><div><b>TikTok</b><small id="ttState">Niet gekoppeld</small></div><button class="ghost connect-btn" data-channel="TikTok">Koppelen</button></div>
+              <div class="channel"><span class="icon instagram">◎</span><div><b>Instagram</b><small id="igState">Niet gekoppeld</small></div><button class="ghost connect-btn" data-channel="Instagram">Koppelen</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="create" class="page">
+        <div class="section-head">
+          <div><h2>AI-video maken</h2><p>Kies hoe de volgende video moet aanvoelen.</p></div>
+        </div>
+        <div class="create-layout">
+          <div class="panel">
+            <label>Thema</label>
+            <div class="theme-grid" id="themeGrid"></div>
+
+            <label class="mt">Lengte</label>
+            <div class="segmented" id="lengthSeg">
+              <button data-length="30">30 sec</button>
+              <button data-length="60" class="selected">60 sec</button>
+              <button data-length="120">2 min</button>
+            </div>
+
+            <label class="mt">Stijl</label>
+            <div class="select-row">
+              <select id="styleSelect">
+                <option>Vertelvideo</option>
+                <option>Documentaire</option>
+                <option>Snelle facts</option>
+                <option>Storytime</option>
+                <option>Donkere mysterieuze stijl</option>
+              </select>
+            </div>
+
+            <label class="check"><input type="checkbox" id="musicCheck" checked /> Achtergrondmuziek</label>
+            <label class="check"><input type="checkbox" id="captionCheck" checked /> Ondertitels</label>
+
+            <button class="primary wide" id="generateBtn">✦ Genereer AI-video</button>
+          </div>
+
+          <div class="panel preview-panel">
+            <div class="preview" id="preview">
+              <div class="preview-glow"></div>
+              <div class="preview-logo">AI</div>
+              <h3>Je preview verschijnt hier</h3>
+              <p>Na het genereren krijg je een onderwerp, script en publicatievoorstel.</p>
+            </div>
+            <div id="generationLog" class="generation-log"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="library" class="page">
+        <div class="section-head"><div><h2>Mijn video's</h2><p>Lokale demo-opslag van gegenereerde video's.</p></div></div>
+        <div id="libraryList" class="video-list"></div>
+      </section>
+
+      <section id="schedule" class="page">
+        <div class="section-head"><div><h2>Planning</h2><p>Plan automatisch wanneer een video wordt gepubliceerd.</p></div></div>
+        <div class="panel">
+          <div class="schedule-form">
+            <input id="scheduleDate" type="datetime-local" />
+            <select id="scheduleTheme"></select>
+            <button class="primary" id="scheduleBtn">Toevoegen</button>
+          </div>
+          <div id="scheduleList" class="schedule-list"></div>
+        </div>
+      </section>
+
+      <section id="settings" class="page">
+        <div class="section-head"><div><h2>Instellingen</h2><p>De echte accountkoppelingen komen in de volgende bouwstap.</p></div></div>
+        <div class="panel">
+          <h3>Sociale kanalen</h3>
+          <p class="muted">Deze demo koppelt nog geen echte accounts. Er worden hier geen wachtwoorden opgeslagen.</p>
+          <div class="settings-channels">
+            <div class="setting-row"><div><b>YouTube</b><small id="ytState2">Niet gekoppeld</small></div><button class="ghost connect-btn" data-channel="YouTube">Koppelen</button></div>
+            <div class="setting-row"><div><b>TikTok</b><small id="ttState2">Niet gekoppeld</small></div><button class="ghost connect-btn" data-channel="TikTok">Koppelen</button></div>
+            <div class="setting-row"><div><b>Instagram</b><small id="igState2">Niet gekoppeld</small></div><button class="ghost connect-btn" data-channel="Instagram">Koppelen</button></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Automatische content</h3>
+          <div class="setting-row"><div><b>Zelf onderwerpen kiezen</b><small>Wissel automatisch tussen je actieve thema's.</small></div><input class="range" id="ideaEvery" type="range" min="1" max="7" value="3"><span id="ideaEveryText">3 / week</span></div>
+          <div class="setting-row"><div><b>Automatisch plannen</b><small>Maak na genereren een planningvoorstel.</small></div><button id="autoScheduleToggle" class="switch on"><span></span></button></div>
+        </div>
+
+        <div class="panel">
+          <h3>Thema's</h3>
+          <p class="muted">Vink thema's aan waaruit de AI mag kiezen.</p>
+          <div id="themeSettings" class="theme-settings"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
